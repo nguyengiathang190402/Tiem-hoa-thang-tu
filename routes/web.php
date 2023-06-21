@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Frontend;
 use App\Http\Controllers\Backend;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,12 +28,12 @@ Route::get('/',[Frontend\ClientController::class,'index'])->name('index');
 Route::get('cart',[Frontend\ClientController::class,'cart'])->name('cart');
 Route::get('/single',[Frontend\ClientController::class,'single'])->name('single');
 // Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
-Route::get('/dashboard',[Backend\DashboardController::class,'index'])->name('dashboard');
-Route::get('/login',[Backend\LoginController::class,'index'])->name('login');
-Route::post('/login',[Backend\LoginController::class,'postLogin'])->name('login');
-Route::get('/register',[Backend\RegisterController::class,'index'])->name('register');
+// Route::get('/dashboard',[Backend\DashboardController::class,'index'])->name('dashboard');
+// Route::get('/login',[Backend\LoginController::class,'index'])->name('login');
+// Route::post('/login',[Backend\LoginController::class,'postLogin'])->name('login');
+// Route::get('/register',[Backend\RegisterController::class,'index'])->name('register');
 
-
+Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
