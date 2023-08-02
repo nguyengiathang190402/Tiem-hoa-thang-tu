@@ -1,5 +1,5 @@
-@extends('layouts.app')
-@section('page-title')
+@extends('Backend.pages.master')
+@section('breadcrumb')
 <h4 class="m-0">Users Management</h4>
 @endsection
 @section('content')
@@ -9,31 +9,34 @@
   <div class="card">
     <div class="card-header">
       <h2 class="card-title">Users Management</h2>
-      <div class="card-tools">
-        @can('user-create')
-        <a class="btn btn-success" href="{{ route('users.create') }}"><i class="fas fa-plus-square"></i> Add User</a>
-        @endcan
-      </div>
     </div>
     <!-- /.card-header -->
-    <div class="card-body table-responsive">  
-      <table class="table table-striped table-bordered">
-      <tr class="bg-blue text-center">
-        <th width="50px">No.</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Roles</th>
-        <th width="150px">Action</th>
+    <div class="card-body table-responsive">
+      @can('user-create')
+      <a class="btn btn-success" href="{{ route('users.create') }}"><i class="fas fa-plus-square"></i> Add User</a>
+      @endcan
+      <div class="table-responsive">
+      <table class="table align-items-center mb-0">
+        <thead>
+      <tr>
+        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No.</th>
+        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Name</th>
+        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
+        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Roles</th>
+        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
       </tr>
+        </thead>
+    
       @foreach ($users as $key => $user)
+
         <tr>
-          <td class="text-center">{{ ++$key }}</td>
+          <td>{{ ++$key }}</td>
           <td>{{ $user->name }}</td>
           <td>{{ $user->email }}</td>
           <td class="text-center">
             @if(!empty($user->getRoleNames()))
               @foreach($user->getRoleNames() as $v)
-                <label class="badge badge-success">{{ $v }}</label>
+                <span class="badge bg-success">{{ $v }}</span>
               @endforeach
             @endif
           </td>
@@ -42,12 +45,17 @@
             <a class="btn btn-sm btn-primary" href="{{ route('users.edit',$user->id) }}">Edit</a>
             @endcan            
             @can('user-delete')
-                {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
-                    {!! Form::submit('Delete', ['class' => 'btn btn-sm btn-danger delete_confirm' ]) !!}
-                {!! Form::close() !!}
-            @endcan
+            <form method="POST" action="{{ route('users.destroy', ['user' => $user->id]) }}">
+              @csrf
+              @method('DELETE')
+              <button type="submit" name="delete" style="display:inline" class="btn btn-sm btn-danger delete_confirm" data-toggle="tooltip" title='Delete' href="{{ route('users.destroy', $user->id) }}">Delete</button>            
+            </form>
+            
+            {{-- <input class="btn btn-sm btn-danger delete_confirm" name="delete" style="display:inline" href="{{ route('users.destroy', $user->id) }}" type="submit" value="Delete"> --}}
+            @endcannot
           </td>
         </tr>
+
       @endforeach
       </table>
     </div>
@@ -55,7 +63,7 @@
     <div class="card-footer clearfix">
       <div class="float-left">
           <div class="dataTables_info">
-              Showing {{ $users->firstItem() }} to {{ $users->lastItem() }} of {{ $users->total() }} entries
+              Hiển thị {{ $users->firstItem() }} đến {{ $users->lastItem() }} của {{ $users->total() }} mục
           </div>
       </div>
       <div class="float-right">
@@ -63,34 +71,34 @@
       </div>
     </div>
   </div>
+</div>
   <!-- /.card -->
 </div>
 @endsection 
-@section('scripts')
+@section('script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
 <script type="text/javascript">
-$(function () {
-    $('.delete_confirm').click(function(event) {
-        var form =  $(this).closest("form");
-        event.preventDefault();
-        swal.fire({
-            title: 'Are you sure you want to delete this record?',
-            text: "If you delete this, it will be gone forever.",
-            icon: 'warning',
+ 
+  $('.delete_confirm').click(function(event) {
+       var form =  $(this).closest("form");
+       var name = $(this).data("name");
+       event.preventDefault();
+       swal({
+        title: "Bạn có chắc là bạn muốn xóa bản ghi này?",
+            text: "Nếu bạn xóa điều này, nó sẽ biến mất mãi mãi.",
+            icon: "warning",
+            type: "warning",
+            buttons: ["Hủy bỏ","Đúng!"],
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!',
-            showDenyButton: true,
-            denyButtonText: 'Cancel',
-        })
-        .then((result) => {
-            if (result.isConfirmed) {
-                form.submit();
-             } else if (result.isDenied) {
-                Swal.fire('Your record is safe', '', 'info')
+            confirmButtonText: 'Vâng, xóa nó!'
+       })
+       .then((willDelete) => {
+            if (willDelete) {
+              form.submit();
             }
-            
-        });
-    });
-});
+       });
+   });
+
 </script>
 @endsection

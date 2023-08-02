@@ -4,6 +4,12 @@
   <script src="{{ asset('admin/assets/js/plugins/perfect-scrollbar.min.js')}}"></script>
   <script src="{{ asset('admin/assets/js/plugins/smooth-scrollbar.min.js')}}"></script>
   <script src="{{ asset('admin/assets/js/plugins/chartjs.min.js')}}"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+  
   <script>
     var ctx = document.getElementById("chart-bars").getContext("2d");
 
@@ -251,6 +257,7 @@
       },
     });
   </script>
+  
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -259,6 +266,19 @@
       }
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
+  </script>
+  <script>
+    $(document).ready(function(){
+        
+        var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+           removeItemButton: true,
+           maxItemCount:5,
+           searchResultLimit:5,
+           renderChoiceLimit:5
+         }); 
+        
+        
+    });
   </script>
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
