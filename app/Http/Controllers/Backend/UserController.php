@@ -9,15 +9,16 @@ use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
 use Illuminate\Support\Arr;
-    
+use Illuminate\Support\Facades\Session;
+
 class UserController extends Controller
 {
     function __construct()
     {
-         $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','store']]);
-         $this->middleware('permission:user-create', ['only' => ['create','store']]);
-         $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+        //  $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','store']]);
+        //  $this->middleware('permission:user-create', ['only' => ['create','store']]);
+        //  $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
+        //  $this->middleware('permission:user-delete', ['only' => ['destroy']]);
     }
     public function index(Request $request)
     {
@@ -37,7 +38,7 @@ class UserController extends Controller
             $roles = Role::pluck('name','name')->except(['name', 'Super-Admin']);
         }
         
-        return view('users.create',compact('roles'));
+        return view('Backend.users.create',compact('roles'));
     }
     
 
@@ -50,8 +51,9 @@ class UserController extends Controller
             'confirm-password' => 'required|same:password',
             'roles' => 'required'
         ]);
-    
+        // dd(1);
         $input = $request->all();
+        // dd($input);
         $input['password'] = Hash::make($input['password']);
     
         $user = User::create($input);
@@ -88,7 +90,7 @@ class UserController extends Controller
         }
         $userRole = $user->roles->pluck('name','name')->all();
     
-        return view('users.edit',compact('user','roles','userRole'));
+        return view('Backend.users.edit',compact('user','roles','userRole'));
     }
 
     public function update(Request $request, $id)
@@ -126,23 +128,19 @@ class UserController extends Controller
         $user = User::find($id);
         if(auth()->id() == $id){
             $notification = array(            
-                'message' => "You cannot delete yourself",
+                'message' => "Bạn không thể xóa bản thân",
                 'alert-type' => 'error'            
             );
             return redirect()->route('users.index')
                             ->with($notification);
         }
         if($user->hasRole('Super-Admin')){
-            $notification = array(            
-                'message' => "You have no permission for delete this user",
-                'alert-type' => 'error'            
-            );
-            return redirect()->route('users.index')
-                            ->with($notification);
+            Session::flash('error', 'Bạn không thể xoá người dùng này!');
+            return redirect()->route('users.index');
         }
         $user->delete();
         $notification = array(            
-            'message' => "User deleted successfully",
+            'message' => "Người dùng đã xóa thành công",
             'alert-type' => 'success'            
         );
         return redirect()->route('users.index')

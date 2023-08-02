@@ -20,9 +20,9 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 Route::group(['middleware' => ['auth']], function() {
-    Route::resource('roles', RoleController::class);
-    Route::resource('users', UserController::class);
-    Route::resource('permissions', PermissionController::class);
+    Route::resource('roles', Backend\RoleController::class);
+    Route::resource('users', Backend\UserController::class);
+    Route::resource('permissions', Backend\PermissionController::class);
 });
 Route::get('/',[Frontend\ClientController::class,'index'])->name('index');
 Route::get('cart',[Frontend\ClientController::class,'cart'])->name('cart');
@@ -35,5 +35,5 @@ Route::get('/single',[Frontend\ClientController::class,'single'])->name('single'
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
 
