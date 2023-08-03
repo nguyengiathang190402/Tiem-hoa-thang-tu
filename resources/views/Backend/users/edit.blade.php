@@ -18,39 +18,39 @@
         <div class="card-body">        
             <div class="row">
                 <div class="col-md-6">
-                    <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="input-group input-group-outline my-3">
                         <div class="form-group">
                             <strong>Name:</strong>
                             {!! Form::text('name', null, array('value' => '{{ old("name") }}', 'placeholder' => 'Name','class' => 'form-control')) !!}
                             <span class="text-danger">{{ $errors->first('name') }}</span>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="input-group input-group-outline my-3">
                         <div class="form-group">
                             <strong>Email:</strong>
                             {!! Form::text('email', null, array('value' => '{{ old("email") }}', 'placeholder' => 'Email','class' => 'form-control')) !!}
                             <span class="text-danger">{{ $errors->first('email') }}</span>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-12 col-md-12">
+                    {{-- <div class="input-group input-group-outline my-3">
                         <div class="form-group">
                             <strong>Password:</strong>
                             {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!}
                             <span class="text-danger">{{ $errors->first('password') }}</span>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="input-group input-group-outline my-3">
                         <div class="form-group">
                             <strong>Confirm Password:</strong>
                             {!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
                             <span class="text-danger">{{ $errors->first('confirm-password') }}</span>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>   
                 <div class="col-md-6">
                     <div class="form-group">
                         <strong>Role:</strong>
-                        {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control','multiple')) !!}
+                        {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control', 'id' => 'choices-multiple-remove-button', 'multiple')) !!}
                         <span class="text-danger">{{ $errors->first('roles') }}</span>
                     </div>
                 </div>     

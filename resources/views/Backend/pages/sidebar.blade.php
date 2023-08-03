@@ -17,22 +17,26 @@
             <span class="nav-link-text ms-1">Dashboard</span>
           </a>
         </li>
+        @can('role-menu')
         <li class="nav-item">
-          <a class="nav-link text-white " href="{{ 'users'}}">
+          <a class="nav-link text-white " href="{{ route('users.index') }}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-user"></i>
             </div>
             <span class="nav-link-text ms-1">User</span>
           </a>
         </li>
+        @endcan
+        @can('role-menu')
         <li class="nav-item">
-          <a class="nav-link text-white " href="{{ 'roles' }}">
+          <a class="nav-link text-white " href="{{ route('roles.index') }}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">receipt_long</i>
+              <i class="fa-solid fa-user-tie"></i>
             </div>
             <span class="nav-link-text ms-1">Role</span>
           </a>
         </li>
+        @endcan
         <li class="nav-item">
           <a class="nav-link text-white " href="../pages/virtual-reality.html">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">

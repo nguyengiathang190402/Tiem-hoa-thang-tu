@@ -15,15 +15,15 @@ class UserController extends Controller
 {
     function __construct()
     {
-        //  $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','store']]);
-        //  $this->middleware('permission:user-create', ['only' => ['create','store']]);
-        //  $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
-        //  $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+         $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:user-create', ['only' => ['create','store']]);
+         $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:user-delete', ['only' => ['destroy']]);
     }
     public function index(Request $request)
     {
 
-        $users = User::orderBy('id','DESC')->paginate(5);
+        $users = User::orderBy('id','ASC')->paginate(5);
 
         return view('Backend.users.index',compact('users'));
 
@@ -98,7 +98,7 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
-            'password' => 'same:confirm-password',            
+            // 'password' => 'same:confirm-password',            
             'roles' => 'required'
         ]);
     
