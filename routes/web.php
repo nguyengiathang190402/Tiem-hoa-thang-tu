@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Frontend;
 use App\Http\Controllers\Backend;
+use App\Http\Controllers\Backend\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -19,10 +20,12 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::group(['middleware' => ['auth']], function() {
+Route::group(['middleware' => ['auth', 'role:Super-Admin']], function() {
     Route::resource('roles', Backend\RoleController::class);
     Route::resource('users', Backend\UserController::class);
     Route::resource('permissions', Backend\PermissionController::class);
+    Route::resource('utilities', Backend\UtilitieController::class);
+    Route::get('impersonate/user/{id}', [Backend\UserController::class, 'impersonate' ]);
 });
 Route::get('/',[Frontend\ClientController::class,'index'])->name('index');
 Route::get('cart',[Frontend\ClientController::class,'cart'])->name('cart');

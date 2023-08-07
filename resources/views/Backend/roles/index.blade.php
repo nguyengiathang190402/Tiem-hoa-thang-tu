@@ -1,4 +1,6 @@
 @extends('Backend.pages.master')
+@section('title', ' | List Roles')
+
 @section('content')
 <div class="col-md-12">
   <div class="card">
@@ -52,30 +54,3 @@
   <!-- /.card -->
 </div>
 @endsection 
-@section('script')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
-<script type="text/javascript">
- 
-  $('.delete_confirm').click(function(event) {
-       var form =  $(this).closest("form");
-       var name = $(this).data("name");
-       event.preventDefault();
-       swal({
-        title: "Bạn có chắc là bạn muốn xóa bản ghi này?",
-            text: "Nếu bạn xóa điều này, nó sẽ biến mất mãi mãi.",
-            icon: "warning",
-            type: "warning",
-            buttons: ["Hủy bỏ","Đúng!"],
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Vâng, xóa nó!'
-       })
-       .then((willDelete) => {
-            if (willDelete) {
-              form.submit();
-            }
-       });
-   });
-
-</script>
-@endsection

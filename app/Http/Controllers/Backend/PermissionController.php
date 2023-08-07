@@ -34,7 +34,8 @@ class PermissionController extends Controller
                 'permissions'=>$permissions,
             ]);
         }
-        return view('permissions.index');
+        // dd($permissions);
+        return view('Backend.permissions.index', compact('permissions'));
 
     }
 

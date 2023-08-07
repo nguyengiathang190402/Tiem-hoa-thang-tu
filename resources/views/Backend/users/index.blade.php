@@ -56,7 +56,7 @@
               @method('DELETE')
               <button type="submit" name="delete" style="display:inline" class="btn btn-sm btn-danger delete_confirm" data-toggle="tooltip" title='Delete' href="{{ route('users.destroy', $user->id) }}">Delete</button>            
             </form>
-            
+            <a class="btn btn-sm btn-primary" href="{{ url('impersonate/user',$user->id) }}">Chuyển tài khoản</a>
             {{-- <input class="btn btn-sm btn-danger delete_confirm" name="delete" style="display:inline" href="{{ route('users.destroy', $user->id) }}" type="submit" value="Delete"> --}}
             @endcannot
           </td>
@@ -81,30 +81,3 @@
   <!-- /.card -->
 </div>
 @endsection 
-@section('script')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
-<script type="text/javascript">
- 
-  $('.delete_confirm').click(function(event) {
-       var form =  $(this).closest("form");
-       var name = $(this).data("name");
-       event.preventDefault();
-       swal({
-        title: "Bạn có chắc là bạn muốn xóa bản ghi này?",
-            text: "Nếu bạn xóa điều này, nó sẽ biến mất mãi mãi.",
-            icon: "warning",
-            type: "warning",
-            buttons: ["Hủy bỏ","Đúng!"],
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Vâng, xóa nó!'
-       })
-       .then((willDelete) => {
-            if (willDelete) {
-              form.submit();
-            }
-       });
-   });
-
-</script>
-@endsection
