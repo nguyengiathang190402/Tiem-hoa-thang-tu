@@ -28,6 +28,13 @@ class UserController extends Controller
         return view('Backend.users.index',compact('users'));
 
     }
+    public function impersonate($id){
+        $user = User::find($id);
+        if($user){
+            Session::put('impersonate', $user->id);
+        }
+        return redirect()->route('users.index');
+    }
     
 
     public function create()

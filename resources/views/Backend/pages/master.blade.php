@@ -48,6 +48,7 @@
     <!-- ./wrapper -->
     @section('script')
         @include('Backend.pages.script')
+            
     @show
     {{-- @include('Backend.pages.toastr') --}}
 </body>
