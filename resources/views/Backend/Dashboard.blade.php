@@ -488,3 +488,5 @@
         
     </div>
 @endsection
+@push('custom-script')
+@endpush
