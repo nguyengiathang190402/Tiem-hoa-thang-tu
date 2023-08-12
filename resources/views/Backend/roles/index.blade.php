@@ -6,9 +6,11 @@
   <div class="card">
     <div class="card-header">
         <h2 class="card-title">Roles Management</h2>
+    @can('role-create')
         <div class="card-tools">
             <a class="btn btn-success" href="{{ route('roles.create') }}"><i class="fas fa-plus-square"></i> New Role</a>
         </div>
+    @endcan
     </div>
     <!-- /.card-header -->
     <div class="card-body table-responsive">  

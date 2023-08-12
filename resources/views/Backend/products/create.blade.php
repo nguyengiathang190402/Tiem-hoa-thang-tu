@@ -57,16 +57,26 @@
             {!! Form::number('price', null, array('class' => 'form-control', 'id' => 'price')) !!}
           </div>
         </div>
-        <label class="input-group input-group-outline my-3">Danh mục:</label>
-            <div class="col-md-6"> 
-                <select class="form-control" id="choices-multiple-remove-button" name="category_id">
-                    <option value="">Chọn danh mục</option>
-                    @foreach ($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-        <hr>
+        <div class="form-group">
+          <label for="categories">{{ trans('cruds.product.fields.category') }}</label>
+          <select class="input-group input-group-static mb-4 select2 " name="categories[]" id="categories" multiple>
+            @foreach($categories as $category)
+                <option value="{{ $category->id }}" {{ in_array($category->id, old('categories', [])) ? 'selected' : '' }}>{{ $category->parentCategory->parentCategory->name }} / {{ $category->parentCategory->name }} / {{ $category->name }}</option>
+            @endforeach
+        </select>
+          <div style="padding-bottom: 4px">
+              <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
+              <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+          </div>
+          
+          
+          @if($errors->has('categories'))
+              <div class="invalid-feedback">
+                  {{ $errors->first('categories') }}
+              </div>
+          @endif
+          <span class="help-block">{{ trans('cruds.product.fields.category_helper') }}</span>
+      </div>
         <div class="file_input_div">
             <div class="file_input">
                 {{-- <label for="form-control"></label> --}}

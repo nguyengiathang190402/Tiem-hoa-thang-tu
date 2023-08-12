@@ -37,6 +37,7 @@
         @include('Backend.pages.script')
             
     @show
+    @yield('scripts')
     {{-- @include('Backend.pages.toastr') --}}
 </body>
 

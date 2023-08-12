@@ -2,7 +2,9 @@
 
 @section('content')
 <h1>Danh sách sản phẩm</h1>
+@can('role-create')
 <a href="{{ route('products.create') }}" class="btn btn-primary">Thêm sản phẩm</a>
+@endcan
 <div class="card">
     <div class="table-responsive">
         <table class="table table-striped table-bordered">

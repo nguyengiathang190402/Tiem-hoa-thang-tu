@@ -28,6 +28,13 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('permissions', Backend\PermissionController::class);
     Route::resource('utilities', Backend\UtilitieController::class);
     Route::resource('products', Backend\ProductController::class);
+    // product category
+    Route::delete('product-categories/destroy', 'ProductCategoryController@massDestroy')->name('product-categories.massDestroy');
+    Route::post('product-categories/media', 'ProductCategoryController@storeMedia')->name('product-categories.storeMedia');
+    Route::post('product-categories/ckmedia', 'ProductCategoryController@storeCKEditorImages')->name('product-categories.storeCKEditorImages');
+    Route::get('product-categories/check-slug', 'ProductCategoryController@checkSlug')->name('product-categories.checkSlug');
+    Route::resource('product-categories', Backend\ProductCategoryController::class);
+
     Route::get('impersonate/user/{id}', [Backend\UserController::class, 'impersonate' ]);
     Route::get('products/images/{filename}', function ($filename) {
         $path = storage_path('app/public/products/' . $filename);

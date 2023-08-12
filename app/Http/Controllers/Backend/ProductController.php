@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductCategory;
+use App\Models\ProductTag;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -36,8 +37,13 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
-        return view('Backend.products.create', compact('categories'));
+        $categories = ProductCategory::with('parentCategory.parentCategory')
+            ->whereHas('parentCategory.parentCategory')
+            ->get();
+
+        $tags = ProductTag::all()->pluck('name', 'id');
+        // dd($categories);
+        return view('Backend.products.create', compact('categories', 'tags'));
     }
 
     /**
