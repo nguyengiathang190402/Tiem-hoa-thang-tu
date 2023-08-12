@@ -13,7 +13,7 @@
     <!-- /.card-header -->
     <div class="card-body table-responsive">
       @can('user-create')
-      <a href="{{ route('users.create') }}" class="btn btn-success"><i class="fas fa-plus-square"></i> Thêm sản phẩm</a>
+      <a href="{{ route('users.create') }}" class="btn btn-success"><i class="fas fa-plus-square"></i> Tạo tài khoản</a>
     </a>
       {{-- <a class="btn btn-success" href="{{ route('users.create') }}"><i class="fas fa-plus-square"></i> Add User</a> --}}
       @endcan
