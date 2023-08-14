@@ -35,6 +35,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('product-categories/check-slug', 'ProductCategoryController@checkSlug')->name('product-categories.checkSlug');
     Route::resource('product-categories', Backend\ProductCategoryController::class);
 
+    Route::delete('product-tags/destroy', 'ProductTagController@massDestroy')->name('product-tags.massDestroy');
+    Route::resource('product-tags', Backend\ProductTagController::class);
+
     Route::get('impersonate/user/{id}', [Backend\UserController::class, 'impersonate' ]);
     Route::get('products/images/{filename}', function ($filename) {
         $path = storage_path('app/public/products/' . $filename);
