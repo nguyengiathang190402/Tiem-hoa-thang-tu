@@ -12,7 +12,7 @@
             <div class="card-tools">
                 <a class="btn btn-success" href="{{ route('roles.index') }}"><i class="fas fa-angle-double-left"></i> Back To Role List</a>
             </div>
-    </div>
+        </div>
         <!-- /.card-header -->
         <!-- form start -->
         {!! Form::model($role, ['method' => 'PATCH','route' => ['roles.update', $role->id]]) !!}
