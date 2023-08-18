@@ -17,7 +17,7 @@
             <span class="nav-link-text ms-1">Dashboard</span>
           </a>
         </li>
-        @can('role-menu')
+        @can('user-menu')
         <li class="nav-item">
           <a class="nav-link text-white " href="{{ route('users.index') }}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -37,6 +37,7 @@
           </a>
         </li>
         @endcan
+        @can('permission-menu')
         <li class="nav-item">
           <a class="nav-link text-white " href="{{ route('permissions.index') }}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -45,6 +46,7 @@
             <span class="nav-link-text ms-1">Permission</span>
           </a>
         </li>
+        @endcan
         <li class="nav-item">
           <a class="nav-link text-white " href="{{ route('utilities.index')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
