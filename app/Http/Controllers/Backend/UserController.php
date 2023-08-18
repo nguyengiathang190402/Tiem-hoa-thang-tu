@@ -66,12 +66,8 @@ class UserController extends Controller
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
     
-        $notification = array(            
-            'message' => 'User created successfully',
-            'alert-type' => 'success'            
-        );
-        return redirect()->route('users.index')
-                        ->with($notification);
+        toastr()->success('Thêm người dùng thành công');
+        return redirect()->route('users.index');
     }
     
     public function show($id)
@@ -83,12 +79,9 @@ class UserController extends Controller
     {
         $user = User::find($id);
         if($user->hasRole('Super-Admin')){
-            $notification = array(            
-                'message' => "You have no permission for edit this user",
-                'alert-type' => 'error'            
-            );
-            return redirect()->route('users.index')
-                            ->with($notification);
+            toastr()->error('Bạn không có quyền để chỉnh sửa người dùng này');
+            
+            return redirect()->route('users.index');
         }
         if(auth()->user()->hasRole('Super-Admin')){
             $roles = Role::pluck('name','name')->all();
@@ -121,36 +114,23 @@ class UserController extends Controller
         DB::table('model_has_roles')->where('model_id',$id)->delete();
     
         $user->assignRole($request->input('roles'));
-    
-        $notification = array(            
-            'message' => 'User updated successfully',
-            'alert-type' => 'success'            
-        );
-        return redirect()->route('users.index')
-                        ->with($notification);
+        toastr()->success('Người dùng cập nhật thành công');
+        return redirect()->route('users.index');
     }
     
     public function destroy($id)
     {
         $user = User::find($id);
         if(auth()->id() == $id){
-            $notification = array(            
-                'message' => "Bạn không thể xóa bản thân",
-                'alert-type' => 'error'            
-            );
-            return redirect()->route('users.index')
-                            ->with($notification);
+            toastr()->error('Bạn không thể xóa bản thân');
+            return redirect()->route('users.index');
         }
         if($user->hasRole('Super-Admin')){
-            Session::flash('error', 'Bạn không thể xoá người dùng này!');
+            toastr()->error('Bạn không thể xoá người dùng này!');
             return redirect()->route('users.index');
         }
         $user->delete();
-        $notification = array(            
-            'message' => "Người dùng đã xóa thành công",
-            'alert-type' => 'success'            
-        );
-        return redirect()->route('users.index')
-                        ->with($notification);
+        toastr()->success('Người dùng đã xóa thành công');
+        return redirect()->route('users.index');
     }
 }

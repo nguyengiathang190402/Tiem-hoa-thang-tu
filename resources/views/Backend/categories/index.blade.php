@@ -1,20 +1,21 @@
 @extends('Backend.pages.master')
 @section('content')
-@can('product_category_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("product-categories.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.productCategory.title_singular') }}
-            </a>
-        </div>
-    </div>
-@endcan
+
 <div class="card">
     <div class="card-header">
         {{ trans('cruds.productCategory.title_singular') }} {{ trans('global.list') }}
     </div>
 
     <div class="card-body">
+        <div style="margin-bottom: 10px;" class="row">
+            <div class="col-lg-12">
+                @can('product-create')
+                    <a class="btn btn-success" href="{{ route("product-categories.create") }}">
+                        {{ trans('global.add') }} {{ trans('cruds.productCategory.title_singular') }}
+                    </a>
+                @endcan
+            </div>
+        </div>
         <div class="table-responsive">
             <table class=" table table-bordered table-striped table-hover datatable datatable-ProductCategory">
                 <thead>
@@ -22,25 +23,25 @@
                         <th width="10">
 
                         </th>
-                        <th>
+                        <th class="text-uppercase text-secondary text-s font-weight-bolder opacity-7">
                             {{ trans('cruds.productCategory.fields.id') }}
                         </th>
-                        <th>
+                        <th class="text-center text-uppercase text-secondary text-s font-weight-bolder opacity-7">
                             {{ trans('cruds.productCategory.fields.name') }}
                         </th>
-                        <th>
+                        <th class="text-center text-uppercase text-secondary text-s font-weight-bolder opacity-7">
                             {{ trans('cruds.productCategory.fields.description') }}
                         </th>
-                        <th>
+                        <th class="text-center text-uppercase text-secondary text-s font-weight-bolder opacity-7">
                             {{ trans('cruds.productCategory.fields.photo') }}
                         </th>
-                        <th>
+                        <th class="text-center text-uppercase text-secondary text-s font-weight-bolder opacity-7">
                             {{ trans('cruds.productCategory.fields.category') }}
                         </th>
-                        <th>
+                        <th class="text-center text-uppercase text-secondary text-s font-weight-bolder opacity-7">
                             {{ trans('cruds.productCategory.fields.slug') }}
                         </th>
-                        <th>
+                        <th class="text-center text-uppercase text-secondary text-s font-weight-bolder opacity-7">
                             {{trans('cruds.productCategory.fields.action')}}
                         </th>
                     </tr>

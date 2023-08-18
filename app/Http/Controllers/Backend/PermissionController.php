@@ -67,14 +67,9 @@ class PermissionController extends Controller
                 'name' => $request->name,
             ]
         );
-
-        $notification = array(            
-            'message' => 'Permission added successfully',
-            'alert-type' => 'success'            
-        );
+        toastr()->success('Permissions thêm thành công');
         
-        return redirect()->route('permissions.index')
-                        ->with($notification);
+        return redirect()->route('permissions.index');
 
     }
 
@@ -108,14 +103,14 @@ class PermissionController extends Controller
         $permission->save();
     
         return redirect()->route('permissions.index')
-                        ->with('success','Permission updated successfully');
+                        ->with('success','Quyền được cập nhật thành công');
     }
 
     public function destroy($id)
     {
         DB::table("permissions")->where('id',$id)->delete();        
         return response()->json([
-            'message' => 'Record deleted successfully!'
+            'message' => 'Hồ sơ đã xóa thành công!'
           ]);
         /* $notification = array(            
             'message' => 'Permissions deleted successfully',
