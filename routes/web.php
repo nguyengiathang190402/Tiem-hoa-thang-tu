@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Frontend;
 use App\Http\Controllers\Backend;
-use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\ProductCategoryController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
@@ -22,17 +22,24 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+// Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Backend', 'middleware' => ['auth']], function () {
 Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', Backend\RoleController::class);
     Route::resource('users', Backend\UserController::class);
     Route::resource('permissions', Backend\PermissionController::class);
     Route::resource('utilities', Backend\UtilitieController::class);
+    // product
+    Route::delete('products/destroy', [Backend\ProductController::class, 'massDestroy'])->name('products.massDestroy');
+    Route::post('products/media', [Backend\ProductController::class, 'storeMedia'])->name('products.storeMedia');
+    Route::post('products/ckmedia', [Backend\ProductController::class, 'storeCKEditorImages'])->name('products.storeCKEditorImages');
+    Route::get('products/check-slug', [Backend\ProductController::class, 'checkSlug'])->name('products.checkSlug');
     Route::resource('products', Backend\ProductController::class);
     // product category
-    Route::delete('product-categories/destroy', 'ProductCategoryController@massDestroy')->name('product-categories.massDestroy');
-    Route::post('product-categories/media', 'ProductCategoryController@storeMedia')->name('product-categories.storeMedia');
-    Route::post('product-categories/ckmedia', 'ProductCategoryController@storeCKEditorImages')->name('product-categories.storeCKEditorImages');
-    Route::get('product-categories/check-slug', 'ProductCategoryController@checkSlug')->name('product-categories.checkSlug');
+    Route::delete('product-categories/destroy', [Backend\ProductCategoryController::class,'massDestroy'])->name('product-categories.massDestroy');
+    Route::post('product-categories/media', [Backend\ProductCategoryController::class, 'storeMedia'])->name('product-categories.storeMedia');
+    Route::post('product-categories/ckmedia', [Backend\ProductCategoryController::class, 'storeCKEditorImages'])->name('product-categories.storeCKEditorImages');
+    // Route::get('product-categories/check-slug', 'Backend\ProductCategoryController@checkSlug')->name('product-categories.checkSlug');
+    Route::get('product-categories/check-slug', [Backend\ProductCategoryController::class, 'checkSlug'])->name('product-categories.checkSlug');
     Route::resource('product-categories', Backend\ProductCategoryController::class);
 
     Route::delete('product-tags/destroy', 'ProductTagController@massDestroy')->name('product-tags.massDestroy');

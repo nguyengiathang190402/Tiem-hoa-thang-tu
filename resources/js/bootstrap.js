@@ -1,3 +1,4 @@
+window._ = require('lodash');
 import 'bootstrap';
 
 /**
@@ -5,6 +6,12 @@ import 'bootstrap';
  * to our Laravel back-end. This library automatically handles sending the
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
+try {
+    window.Popper = require('popper.js').default;
+    window.$ = window.jQuery = require('jquery');
+
+    require('bootstrap');
+} catch (e) {}
 
 import axios from 'axios';
 window.axios = axios;
@@ -16,6 +23,10 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
  */
+
+// Import Select2
+import 'select2';
+import 'select2/dist/css/select2.min.css';
 
 // import Echo from 'laravel-echo';
 
@@ -31,3 +42,6 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
 //     enabledTransports: ['ws', 'wss'],
 // });
+window.$ = window.jQuery = require('jquery');
+require('datatables.net');
+require('datatables.net-dt');

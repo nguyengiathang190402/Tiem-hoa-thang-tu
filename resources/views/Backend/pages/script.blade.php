@@ -1,32 +1,58 @@
-
+{{-- template --}}
   <script src="{{ asset('admin/assets/js/core/popper.min.js')}}"></script>
   <script src="{{ asset('admin/assets/js/core/bootstrap.min.js')}}"></script>
   <script src="{{ asset('admin/assets/js/plugins/perfect-scrollbar.min.js')}}"></script>
   <script src="{{ asset('admin/assets/js/plugins/smooth-scrollbar.min.js')}}"></script>
   <script src="{{ asset('admin/assets/js/plugins/chartjs.min.js')}}"></script>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{-- sweetalert --}}
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
   {{-- moi --}}
+  
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.6.0/dist/alpine.min.js" defer></script>
-  <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+{{-- dropzone --}}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
+{{-- datatable --}}
   <script src="//cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
   <script src="//cdn.datatables.net/buttons/1.2.4/js/buttons.flash.min.js"></script>
+{{-- moment (ngay,thang) --}}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+{{-- pdf make --}}
   <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
   <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+{{-- zip --}}
   <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-  <script src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+{{-- datetime picker --}}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+{{-- jquery --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+
+
+  {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
   <script src="{{ asset('admin/assets/js/main.js') }}"></script>
+
+  {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+
+  <script src="{{ asset('js/app.js') }}"></script>
+  <script src="{{ asset('js/bootstrap.js') }}"></script>
+
+  {{-- select2 --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+
+  <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
   
+
+
   <script>
-    $('.select2').select2()
 
     var ctx = document.getElementById("chart-bars").getContext("2d");
 
@@ -324,156 +350,6 @@
   </script>
 
   {{-- Modall --}}
-  <script type="text/javascript">
-    $(function () {
-  
-      var change = $('#permission_table').DataTable({
-              'responsive': true,
-              //'fixedHeader': true,
-              'autoWidth': false,
-              'processing': true,
-              'serverside': true,
-              "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Show all"]],
-              'ajax': {
-                  'dataSrc': 'permissions'
-              },
-              'columns':[   
-                  {
-                      className:      'dt-control',
-                      orderable:      false,
-                      data:           null,
-                      defaultContent: ''
-                  },
-                  { data: 'name' },
-                  { data: 'id',
-                      orderable: false,
-                      render: function(data){
-                          return '<button class="btn btn-sm btn-info btn-edit mr-1" data-id="'+data+'">Edit</button>'+
-                                  '<button class="btn btn-sm btn-danger btn-delete" data-id="'+data+'">Delete</button>';
-                      }
-                  }
-              ],
-              order: [[1, 'desc']],
-              "columnDefs": [
-          { 'className': 'dt-center','targets': '_all' }
-        ]
-          });
-          
-          //Plus detail    
-          $('#permission_table tbody').on('click', 'td.dt-control', function () {
-              var tr = $(this).closest('tr');
-              var row = change.row( tr );
-          
-              if ( row.child.isShown() ) {
-                  row.child.hide();
-                  tr.removeClass('shown');
-              }
-              else {
-                  row.child( format(row.data()) ).show();
-                  tr.addClass('shown');
-              }
-          } );
-          function format ( rowData ) {
-              return '<table class="table table-bordered">'+
-                  '<tr style="background: #f9f9f9">'+
-                      '<th width="30%">Title</th>'+
-                      '<th width="70%">Details</th>'+
-                  '</tr>'+
-                  '<tr>'+
-                      '<td>ID:</td>'+
-                      '<td>'+rowData.id+'</td>'+
-                  '</tr>'+
-                  '<tr>'+
-                      '<td>Name:</td>'+
-                      '<td>'+rowData.name+'</td>'+
-                  '</tr>'+
-                  '<tr>'+
-                      '<td>Created at:</td>'+
-                      '<td>'+Date(rowData.created_at)+'</td>'+
-                  '</tr>'+
-              '</table>'; 
-          };
-  
-          //create
-          $('#permission_table').on('click', '.btn-create', function (e) {
-              e.preventDefault;
-              var url = '{{ route("permissions.store") }}';
-              $('.modal-title').html("Create permission");
-              $('#permissionForm').attr('action', url);
-              $('#permission_method').attr('value', 'POST');
-              $('#id').val('');        
-          });
-          //edit
-          $('#permission_table').on('click', '.btn-edit', function () {
-              var permission_id = $(this).data('id');
-              var url = '{{ route("permissions.update","") }}' +'/'+ permission_id;
-              $.ajax({
-                  cache: false,
-                  success: function(data){
-                      $('#PermissionModal').modal('show');
-                      $('.modal-title').html("Edit permission");
-                      $.each(data.permissions, function(index, value) {
-                          if(value.id === permission_id){
-                              $('#id').val(permission_id);
-                              $('#name').val(value.name);
-                              $('#permissionForm').attr('action', url);
-                              $('#permission_method').attr('value', 'PATCH');
-                           }
-                      });
-                  }
-              });
-          });
-          $('#PermissionModal').on('hidden.bs.modal', function () {
-              $(this).find('form').trigger('reset');  
-              $('.error').html('');
-              $('#name').removeClass("is-invalid");
-          });
-  
-          //Delete         
-          $('#permission_table').on("click", ".btn-delete", function() { 
-              var permission_id = $(this).data('id');
-              var url = '{{ route("permissions.destroy","") }}' +'/'+ permission_id;
-              Swal.fire({
-                  title: 'Are you sure you want to delete this record?',
-                  text: "If you delete this, it will be gone forever.",
-                  icon: 'warning',
-                  confirmButtonColor: '#3085d6',
-                  cancelButtonColor: '#d33',
-                  confirmButtonText: 'Yes, delete it!',
-                  showDenyButton: true,
-                  denyButtonText: 'Cancel',
-              }).then((result) => {
-                  if (result.isConfirmed) {
-                      $.ajax({
-                          url: url,
-                          type: 'DELETE',
-                          cache: false,
-                          data: {
-                              _token:'{{ csrf_token() }}',
-                          },
-                          success: function (response){
-                              Swal.fire(
-                                  "Deleted!", 
-                                  "Your file has been deleted.", 
-                                  "success"
-                                  ).then(function(){ 
-                                      location.reload();
-                                  });                            
-                          }
-                      });
-                  }else if (result.isDenied) {
-                      Swal.fire('Your record is safe', '', 'info')
-                  }         
-                  
-              });            
-          });
-  
-          @if(count($errors))
-              $('#PermissionModal').modal('show');
-          @endif        
-  
-  });
-  </script>
   <script>
     var fileInputTextDiv = document.getElementById('file_input_text_div');
     var fileInput = document.getElementById('file_input_file');

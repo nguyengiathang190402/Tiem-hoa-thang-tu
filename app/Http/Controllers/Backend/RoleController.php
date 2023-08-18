@@ -44,7 +44,7 @@ class RoleController extends Controller
         $role->syncPermissions($request->input('permission'));
     
         return redirect()->route('roles.index')
-                        ->with('success','Role created successfully');
+                        ->with('success','Vai trò được tạo ra thành công');
     }
 
     public function show($id)
@@ -56,12 +56,8 @@ class RoleController extends Controller
     {
         $role = Role::find($id);
         if($role->name == 'Super-Admin'){
-            $notification = array(            
-                'message' => "You have no permission for edit this role",
-                'alert-type' => 'error'            
-            );
-            return redirect()->route('roles.index')
-                            ->with($notification);
+            toastr()->error('Bạn không có sự cho phép để chỉnh sửa vai trò này');
+            return redirect()->route('roles.index');
         }
 
         $permission = Permission::get();
@@ -89,36 +85,23 @@ class RoleController extends Controller
         $role->syncPermissions($request->input('permission'));
     
         return redirect()->route('roles.index')
-                        ->with('success','Role updated successfully');
+                        ->with('success','Vai trò được cập nhật thành công');
     }
 
     public function destroy($id)
     {
         $role = Role::find($id);
 
-        if (auth()->user()->roles->find($id)) {        
-            $notification = array(            
-                'message' => 'You have no permission for delete this role',
-                'alert-type' => 'error'            
-            );
-            return redirect()->route('roles.index')
-                            ->with($notification);
+        if (auth()->user()->roles->find($id)) {   
+            toastr()->error('Bạn không có quyền xóa vai trò này');
+            return redirect()->route('roles.index');
         }
         if ($role->name == "Super-Admin"){
-            $notification = array(            
-                'message' => 'You have no permission for delete Super-Admin role',
-                'alert-type' => 'error'            
-            );
-            return redirect()->route('roles.index')
-                            ->with($notification);
+            toastr()->error('Bạn không có sự cho phép cho vai trò Super-Admin');
+            return redirect()->route('roles.index');
         }
         $role->delete();       
-
-        $notification = array(            
-            'message' => 'The role deleted successfully',
-            'alert-type' => 'success'            
-        );
-        return redirect()->route('roles.index')
-                        ->with($notification);
+        toastr()->success('Vai trò đã bị xóa thành công');
+        return redirect()->route('roles.index');
     }
 }
