@@ -1,4 +1,5 @@
 @extends('Backend.pages.master')
+@section('title', 'Sửa Tag')
 @section('content')
 
 <div class="card">
@@ -15,12 +16,10 @@
             @csrf
             <div class="input-group input-group-static mb-4">
                 <label class="required" for="name">Name</label>
-                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $productTag->name) }}" required>
-                @if($errors->has('name'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('name') }}
-                    </div>
-                @endif
+                <input class="form-control" type="text" name="name" id="name" value="{{ old('name', $productTag->name) }}">
+                @error('name')
+                    <span class="text-danger">{{ $message}}</span>
+                @enderror
                 <span class="help-block">{{ trans('cruds.productTag.fields.name_helper') }}</span>
             </div>
             <div class="form-group">

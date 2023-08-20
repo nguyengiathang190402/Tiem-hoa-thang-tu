@@ -10,7 +10,7 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link text-white active bg-gradient-primary" href="{{ route('dashboard') }}">
+          <a class="nav-link text-white {{ request()->routeIs('dashboard') ? 'bg-gradient-primary active' : '' }}" href="{{ route('dashboard') }}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">dashboard</i>
             </div>
@@ -19,7 +19,7 @@
         </li>
         @can('user-menu')
         <li class="nav-item">
-          <a class="nav-link text-white " href="{{ route('users.index') }}">
+          <a class="nav-link text-white {{ request()->routeIs('users.*') ? 'bg-gradient-primary active' : '' }} " href="{{ route('users.index') }}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-user"></i>
             </div>
@@ -29,7 +29,7 @@
         @endcan
         @can('role-menu')
         <li class="nav-item">
-          <a class="nav-link text-white " href="{{ route('roles.index') }}">
+          <a class="nav-link text-white {{ request()->routeIs('roles.*') ? 'bg-gradient-primary active' : '' }}" href="{{ route('roles.index') }}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-user-tie"></i>
             </div>
@@ -39,7 +39,7 @@
         @endcan
         @can('permission-menu')
         <li class="nav-item">
-          <a class="nav-link text-white " href="{{ route('permissions.index') }}">
+          <a class="nav-link text-white {{ request()->routeIs('permissions.*') ? 'bg-gradient-primary active' : '' }}" href="{{ route('permissions.index') }}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-hammer"></i>
             </div>
@@ -48,7 +48,7 @@
         </li>
         @endcan
         <li class="nav-item">
-          <a class="nav-link text-white " href="{{ route('utilities.index')}}">
+          <a class="nav-link text-white {{ request()->routeIs('utilities.*') ? 'bg-gradient-primary active' : '' }}" href="{{ route('utilities.index')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-brain"></i>
             </div>
@@ -56,7 +56,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="{{ route('products.index')}}">
+          <a class="nav-link text-white {{ request()->routeIs('products.*') ? 'bg-gradient-primary active' : '' }}" href="{{ route('products.index')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-cubes"></i>
             </div>
@@ -64,7 +64,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="{{ route('product-categories.index')}}">
+          <a class="nav-link text-white {{ request()->routeIs('product-categories.*') ? 'bg-gradient-primary active' : '' }}" href="{{ route('product-categories.index')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-cubes"></i>
             </div>
@@ -72,7 +72,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="{{ route('product-tags.index')}}">
+          <a class="nav-link text-white {{ request()->routeIs('product-tags.*') ? 'bg-gradient-primary active' : '' }}" href="{{ route('product-tags.index')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-cubes"></i>
             </div>

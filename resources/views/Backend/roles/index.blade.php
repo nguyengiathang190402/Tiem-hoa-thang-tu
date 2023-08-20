@@ -42,7 +42,7 @@
         {!! $roles->render() !!}
     </div>
     <!-- /.card-body -->
-    <div class="card-footer clearfix">
+    {{-- <div class="card-footer clearfix">
         <div class="float-left">
             <div class="dataTables_info">
                 Showing {{ $roles->firstItem() }} to {{ $roles->lastItem() }} of {{ $roles->total() }} entries
@@ -51,7 +51,7 @@
         <div class="float-right">
             {{ $roles->links() }}
         </div>
-    </div>
+    </div> --}}
   </div>
   <!-- /.card -->
 </div>

@@ -1,4 +1,5 @@
 @extends('Backend.pages.master')
+@section('title', 'Product Tag')
 @section('content')
 @can('product_tag_create')
     <div style="margin-bottom: 10px;" class="row">

@@ -60,6 +60,17 @@
               <div class="card-body">
                 <form role="form" class="text-start" method="POST" action="{{ route('login') }}">
                     @csrf
+                    @if(session('status_blocked'))
+                        <div class="alert alert-danger">
+                            {{ session('status_blocked') }}
+                        </div>
+                    @endif
+
+                    @if(session('status'))
+                        <div class="alert alert-success">
+                            {{ session('status') }}
+                        </div>
+                    @endif
                   <div class="input-group input-group-outline my-3">
                     <label class="form-label">Email</label>
                     <input type="email" id="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>

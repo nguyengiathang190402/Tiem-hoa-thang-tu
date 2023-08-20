@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductTag\CreateProductTagRequest;
+use App\Http\Requests\ProductTag\UpdateProductTagRequest;
 use App\Models\ProductTag;
 use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
@@ -16,7 +18,6 @@ class ProductTagController extends Controller
      */
     public function index()
     {
-        // abort_if(Gate::denies('product_tag_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $productTags = ProductTag::all();
 
@@ -30,7 +31,6 @@ class ProductTagController extends Controller
      */
     public function create()
     {
-        // abort_if(Gate::denies('product_tag_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('Backend.product-tags.create');
     }
@@ -41,10 +41,11 @@ class ProductTagController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateProductTagRequest $request)
     {
         $productTag = ProductTag::create($request->all());
 
+        toastr()->success('thẻ sản phẩm đã được thêm mới thành công');
         return redirect()->route('product-tags.index');
     }
 
@@ -56,7 +57,6 @@ class ProductTagController extends Controller
      */
     public function show(ProductTag $productTag)
     {
-        // abort_if(Gate::denies('product_tag_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('Backend.product-tags.show', compact('productTag'));
     }
@@ -69,7 +69,6 @@ class ProductTagController extends Controller
      */
     public function edit(ProductTag $productTag)
     {
-        // abort_if(Gate::denies('product_tag_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('Backend.product-tags.edit', compact('productTag'));
     }
@@ -81,9 +80,10 @@ class ProductTagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProductTag $productTag)
+    public function update(UpdateProductTagRequest $request, ProductTag $productTag)
     {
         $productTag->update($request->all());
+        toastr()->success('Thẻ sản phẩm đã được cập nhật thành công');
 
         return redirect()->route('product-tags.index');
     }
@@ -96,9 +96,9 @@ class ProductTagController extends Controller
      */
     public function destroy(ProductTag $productTag)
     {
-        // abort_if(Gate::denies('product_tag_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $productTag->delete();
+        toastr()->success(__('Thẻ sản phẩm đã xóa thành công'));
 
         return back();
     }

@@ -36,6 +36,9 @@
 
 <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
 
+{{-- ckeditor --}}
+<script src="{{ asset('plugin/ckeditor5-build-classic/ckeditor.js') }}"></script>
+
 
   {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
   <script src="{{ asset('admin/assets/js/main.js') }}"></script>
@@ -46,7 +49,7 @@
   <script src="{{ asset('js/bootstrap.js') }}"></script>
 
   {{-- select2 --}}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
 
   <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
   

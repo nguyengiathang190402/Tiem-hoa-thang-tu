@@ -26,11 +26,11 @@ class ProductController extends Controller
     
     public function index()
     {
-        $products = Product::all();
+        // $products = Product::all();
         $categories = ProductCategory::with('parentCategory.parentCategory')
             // ->whereHas('parentCategory.parentCategory')
             ->get();
-        // $products = Product::orderBy('id','ASC')->paginate(5);
+        $products = Product::orderBy('id','ASC')->paginate(5);
         return view('Backend.products.index', compact('products', 'categories'));
     }
 
@@ -179,7 +179,6 @@ class ProductController extends Controller
 
     public function storeCKEditorImages(Request $request)
     {
-        // abort_if(Gate::denies('product_create') && Gate::denies('product_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $model         = new Product();
         $model->id     = $request->input('crud_id', 0);

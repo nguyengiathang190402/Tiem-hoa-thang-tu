@@ -19,6 +19,7 @@ class UserController extends Controller
          $this->middleware('permission:user-create', ['only' => ['create','store']]);
          $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
          $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+         $this->middleware('permission:user-show', ['only' => ['show']]);
     }
     public function index(Request $request)
     {
@@ -44,8 +45,9 @@ class UserController extends Controller
         }else{
             $roles = Role::pluck('name','name')->except(['name', 'Super-Admin']);
         }
-        
-        return view('Backend.users.create',compact('roles'));
+
+        $users = User::all();
+        return view('Backend.users.create',compact('roles', 'users'));
     }
     
 
@@ -56,15 +58,25 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
             'confirm-password' => 'required|same:password',
+            'phone' => ['required', 'regex:/^0\d{9,10}$/'],
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'address' => 'nullable',
+            'gender' => 'nullable|in:0,1',
             'roles' => 'required'
         ]);
         // dd(1);
         $input = $request->all();
         // dd($input);
         $input['password'] = Hash::make($input['password']);
-    
+        
+        // Xử lý upload ảnh
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('avatars', 'public');
+            $input['image'] = $imagePath;
+        }
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
+
     
         toastr()->success('Thêm người dùng thành công');
         return redirect()->route('users.index');
@@ -72,7 +84,8 @@ class UserController extends Controller
     
     public function show($id)
     {
-        return redirect()->route('users.index');
+        $users = User::find($id);
+        return view('Backend.users.show', compact('users'));
     }
     
     public function edit($id)
@@ -97,6 +110,10 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
+            'phone' => ['required', 'regex:/^0\d{9,10}$/'],
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'address' => 'nullable',
+            'gender' => 'nullable|in:0,1',
             'email' => 'required|email|unique:users,email,'.$id,
             // 'password' => 'same:confirm-password',            
             'roles' => 'required'
@@ -108,7 +125,12 @@ class UserController extends Controller
         }else{
             $input = Arr::except($input,array('password'));    
         }
-    
+        
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('avatars', 'public');
+            $input['image'] = $imagePath;
+        }
+
         $user = User::find($id);
         $user->update($input);
         DB::table('model_has_roles')->where('model_id',$id)->delete();
@@ -133,4 +155,28 @@ class UserController extends Controller
         toastr()->success('Người dùng đã xóa thành công');
         return redirect()->route('users.index');
     }
+    public function ajaxChangeStatus(Request $request)
+    {
+        $userId = $request->input('user_id');
+        $newStatus = $request->input('status');
+        
+        $user = User::findOrFail($userId);
+
+        if (auth()->user()->hasRole('Super-Admin')) {
+            $role = $user->roles->first();
+            if ($role->name === 'Super-Admin') {
+                // toastr()->error('Bạn không có quyền để chỉnh sửa trạng thái của Super-Admin.');
+                return response()->json(['message' => 'Không thể thay đổi trạng thái của Super-Admin.'], 403);
+            }
+
+            $user->status = $newStatus;
+            $user->save();
+
+            return response()->json(['message' => 'Trạng thái của người dùng đã được cập nhật.']);
+        }
+
+        return response()->json(['message' => 'Bạn không có quyền thay đổi trạng thái.'], 403);
+    }
+
+
 }

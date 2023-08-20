@@ -25,7 +25,12 @@ use Illuminate\Support\Facades\Route;
 // Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Backend', 'middleware' => ['auth']], function () {
 Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', Backend\RoleController::class);
+
     Route::resource('users', Backend\UserController::class);
+    Route::post('/users/change-status', [Backend\UserController::class, 'ajaxChangeStatus'])->name('users.ajaxChangeStatus');
+
+
+
     Route::resource('permissions', Backend\PermissionController::class);
     Route::resource('utilities', Backend\UtilitieController::class);
     // product

@@ -25,10 +25,14 @@
 }
 </style>
 @section('content')
+@section('title', 'Thêm mới sản phẩm')
 <div class="card">
   <div class="card-header">
-    <h2>Thêm Sản Phẩm</h2>
-  </div>
+    <h5 class="card-title">Thêm Sản phẩm</h5>
+    <div class="card-tools">
+        <a class="btn btn-success" href="{{ route('products.index') }}"><i class="fas fa-angle-double-left"></i> Về danh sách sản phẩm</a>
+    </div>
+</div>
     @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -38,7 +42,7 @@
         </ul>
     </div>
     @endif
-<div class="card-body">
+  <div class="card-body">
     <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
             <div class="input-group input-group-static mb-4">
@@ -187,4 +191,5 @@
         });
     });
 </script>
+
 @endsection
