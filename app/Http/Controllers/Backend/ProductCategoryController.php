@@ -15,7 +15,6 @@ class ProductCategoryController extends Controller
 {
     public function index()
     {
-        // abort_if(forbidden('product_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $productCategories = ProductCategory::whereNull('category_id')
             ->with('childCategories.childCategories')
@@ -26,7 +25,6 @@ class ProductCategoryController extends Controller
 
     public function create()
     {
-        // abort_if(forbidden('product_category_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $categories = ProductCategory::whereNull('category_id')
             ->with('childCategories')
@@ -46,13 +44,12 @@ class ProductCategoryController extends Controller
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $productCategory->id]);
         }
-
+        toastr()->success('Danh mục đã thêm thành công');
         return redirect()->route('product-categories.index');
 
     }
     public function edit(ProductCategory $productCategory)
     {
-        // abort_if(Gate::denies('product_category_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $categories = ProductCategory::whereNull('category_id')
             ->with('childCategories')
@@ -75,13 +72,14 @@ class ProductCategoryController extends Controller
             $productCategory->photo->delete();
         }
 
+        toastr()->success('Danh mục đã thêm thành công');
+
         return redirect()->route('product-categories.index');
 
     }
 
     public function show(ProductCategory $productCategory)
     {
-        // abort_if(Gate::denies('product_category_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $productCategory->load('parentCategory');
 
@@ -90,9 +88,9 @@ class ProductCategoryController extends Controller
 
     public function destroy(ProductCategory $productCategory)
     {
-        // abort_if(Gate::denies('product_category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $productCategory->delete();
+        toastr()->success('Danh mục sản phẩm đã xóa thành công');
 
         return back();
 
@@ -102,7 +100,6 @@ class ProductCategoryController extends Controller
 
     public function storeCKEditorImages(Request $request)
     {
-        // abort_if(forbidden('product_category_create') && forbidden('product_category_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $model         = new ProductCategory();
         $model->id     = $request->input('crud_id', 0);

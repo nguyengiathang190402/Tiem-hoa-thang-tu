@@ -1,8 +1,6 @@
 @extends('Backend.pages.master')
 
-@section('breadcrumb')
-<h4 class="m-0">Edit Role</h4>
-@endsection
+@section('title', ' | Edit Roles')
 @section('content')
 <!-- general form elements -->
 <div class="col-md-12">
@@ -57,17 +55,19 @@
                                     if ($abc != substr($value->name,0,strpos($value->name,"-")) && $key === 0){
                                         $abc = substr($value->name,0,strpos($value->name,"-"));
                                         
-                                        echo '<label>'.$abc. '</label><div class="block">';
+                                        echo '<h6 class="initialism"><mark>'.$abc. '</mark></h6><div class="block">';
 
                                     }  else if($abc != substr($value->name,0,strpos($value->name,"-")) && $key !== 0){
                                         $abc = substr($value->name,0,strpos($value->name,"-"));
                                         echo '</div></div><div class="col-md-4">';
-                                        echo '<label>'.$abc. '</label><div class="block">';
+                                        echo '<h6 class="initialism"><mark>'.$abc. '</mark></h6><div class="block">';
                                     }                    
                                 ?>
-                                {{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions) ? true : false, array('class' => 'name')) }}
-                                {{ $value->name }}
-                                <br/>
+                                
+                                <div class="form-check">
+                                    {{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions) ? true : false, array('class' => 'form-check-input')) }}
+                                    <label class="custom-control-label" for="customCheck1">{{ $value->name }}</label>
+                                    </div>
                                 <?php
                                     if ($key === $len-1) {
                                         echo '</div></div>';

@@ -1,4 +1,5 @@
 @extends('Backend.pages.master')
+@section('title', 'Category')
 @section('content')
 
 <div class="card">

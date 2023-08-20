@@ -1,6 +1,6 @@
 @extends('Backend.pages.master')
 @section('title')
-    {{-- {{ __('Dashboard') }} --}}
+    {{ __('Dashboard') }}
 @endsection
 @section('content')
             <div class="container-fluid py-4">

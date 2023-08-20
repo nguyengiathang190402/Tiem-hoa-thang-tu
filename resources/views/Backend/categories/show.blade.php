@@ -1,4 +1,5 @@
 @extends('Backend.pages.master')
+@section('title', 'xem chi tiết danh mục')
 @section('content')
 
 <div class="card">

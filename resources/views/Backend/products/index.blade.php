@@ -1,5 +1,5 @@
 @extends('Backend.pages.master')
-
+@section('title', 'Product')
 @section('content')
 <h1>Danh sách sản phẩm</h1>
 @can('product-create')
@@ -83,6 +83,7 @@
             @endforeach
         </tbody>
     </table>
+    {!! $products->render() !!}
     </div>
     {{-- <div class="card-footer clearfix">
         <div class="float-left">
