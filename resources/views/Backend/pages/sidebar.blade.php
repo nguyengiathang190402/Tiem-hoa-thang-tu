@@ -47,14 +47,7 @@
           </a>
         </li>
         @endcan
-        <li class="nav-item">
-          <a class="nav-link text-white {{ request()->routeIs('utilities.*') ? 'bg-gradient-primary active' : '' }}" href="{{ route('utilities.index')}}">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="fa-solid fa-brain"></i>
-            </div>
-            <span class="nav-link-text ms-1">Tiện ích</span>
-          </a>
-        </li>
+        @can('product-menu')
         <li class="nav-item">
           <a class="nav-link text-white {{ request()->routeIs('products.*') ? 'bg-gradient-primary active' : '' }}" href="{{ route('products.index')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -63,6 +56,18 @@
             <span class="nav-link-text ms-1">Sản phẩm</span>
           </a>
         </li>
+        @endcan
+        @can('atrribute-menu')
+        <li class="nav-item">
+          <a class="nav-link text-white {{ request()->routeIs('product-attributes.*') ? 'bg-gradient-primary active' : '' }}" href="{{ route('product-attributes.index')}}">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fa-solid fa-cubes"></i>
+            </div>
+            <span class="nav-link-text ms-1">Thuộc tính</span>
+          </a>
+        </li>
+        @endcan
+        @can('category-menu')
         <li class="nav-item">
           <a class="nav-link text-white {{ request()->routeIs('product-categories.*') ? 'bg-gradient-primary active' : '' }}" href="{{ route('product-categories.index')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -71,6 +76,8 @@
             <span class="nav-link-text ms-1">Danh mục</span>
           </a>
         </li>
+        @endcan
+        @can('tag-menu')
         <li class="nav-item">
           <a class="nav-link text-white {{ request()->routeIs('product-tags.*') ? 'bg-gradient-primary active' : '' }}" href="{{ route('product-tags.index')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -79,31 +86,16 @@
             <span class="nav-link-text ms-1">Slug</span>
           </a>
         </li>
+        @endcan
         <li class="nav-item mt-3">
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="#">
+          <a class="nav-link text-white {{ request()->routeIs('utilities.*') ? 'bg-gradient-primary active' : '' }}" href="{{ route('utilities.index')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">person</i>
+              <i class="fa-solid fa-brain"></i>
             </div>
-            <span class="nav-link-text ms-1">person</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white " href="../pages/sign-in.html">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">login</i>
-            </div>
-            <span class="nav-link-text ms-1">Sign In</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white " href="../pages/sign-up.html">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">assignment</i>
-            </div>
-            <span class="nav-link-text ms-1">Sign Up</span>
+            <span class="nav-link-text ms-1">Tiện ích</span>
           </a>
         </li>
       </ul>

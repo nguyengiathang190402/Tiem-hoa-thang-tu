@@ -1,7 +1,7 @@
 @extends('Backend.pages.master')
 @section('title', 'Product Tag')
 @section('content')
-@can('product_tag_create')
+@can('tag-create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
             <a class="btn btn-success" href="{{ route("product-tags.create") }}">
@@ -47,19 +47,19 @@
                                 {{ $productTag->name ?? '' }}
                             </td>
                             <td class="text-center text-secondary text-s font-weight-bolder">
-                                @can('role-show')
+                                @can('tag-show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('product-tags.show', $productTag->id) }}">
                                         {{ trans('global.view') }}
                                     </a>
                                 @endcan
 
-                                @can('role-edit')
+                                @can('tag-edit')
                                     <a class="btn btn-xs btn-info" href="{{ route('product-tags.edit', $productTag->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
                                 @endcan
 
-                                @can('role-delete')
+                                @can('tag-delete')
                                     <form action="{{ route('product-tags.destroy', $productTag->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">

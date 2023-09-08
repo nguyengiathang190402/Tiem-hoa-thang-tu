@@ -36,6 +36,46 @@ class PermissionTableSeeder extends Seeder
             'permission-show',
             'permission-delete',
 
+            'product-menu',
+            'product-list',
+            'product-create',
+            'product-edit',
+            'product-show',
+            'product-delete',
+
+
+            'attribute-menu',
+            'attribute-list',
+            'attribute-create',
+            'attribute-edit',
+            'attribute-show',
+            'attribute-delete',
+            'attribute-manage',
+
+
+            'value-menu',
+            'value-list',
+            'value-create',
+            'value-edit',
+            'value-show',
+            'value-delete',
+
+
+            'category-menu',
+            'category-list',
+            'category-create',
+            'category-edit',
+            'category-show',
+            'category-delete',
+
+
+            'tag-menu',
+            'tag-list',
+            'tag-create',
+            'tag-edit',
+            'tag-show',
+            'tag-delete',
+
         ];
      
         foreach ($permissions as $permission) {

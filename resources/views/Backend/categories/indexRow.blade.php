@@ -25,19 +25,19 @@
         {{ $productCategory->slug ?? '' }}
     </td>
     <td class="text-center text-uppercase text-secondary text-s font-weight-bolder">
-        @can('product-show')
+        @can('category-show')
             <a class="btn btn-xs btn-primary" href="{{ route('product-categories.show', $productCategory->id) }}">
                 {{ trans('global.view') }}
             </a>
         @endcan
 
-        @can('product-edit')
+        @can('category-edit')
             <a class="btn btn-xs btn-info" href="{{ route('product-categories.edit', $productCategory->id) }}">
                 {{ trans('global.edit') }}
             </a>
         @endcan
 
-        @can('product-delete')
+        @can('category-delete')
             <form action="{{ route('product-categories.destroy', $productCategory->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                 <input type="hidden" name="_method" value="DELETE">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">

@@ -36,6 +36,9 @@
 
 <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Z8yc6Ak4P+Y3E8QaV8g4G1a7f+cJw4TA/4IBQn4Ea4S3tFq2BSc0M5K0ksaV8b9" crossorigin="anonymous"></script>
+
+
 {{-- ckeditor --}}
 <script src="{{ asset('plugin/ckeditor5-build-classic/ckeditor.js') }}"></script>
 
@@ -54,6 +57,8 @@
   <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
   
 
+
+  
 
   <script>
 

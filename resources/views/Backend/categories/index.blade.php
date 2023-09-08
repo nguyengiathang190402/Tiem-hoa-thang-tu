@@ -10,7 +10,7 @@
     <div class="card-body">
         <div style="margin-bottom: 10px;" class="row">
             <div class="col-lg-12">
-                @can('product-create')
+                @can('category-create')
                     <a class="btn btn-success" href="{{ route("product-categories.create") }}">
                         {{ trans('global.add') }} {{ trans('cruds.productCategory.title_singular') }}
                     </a>

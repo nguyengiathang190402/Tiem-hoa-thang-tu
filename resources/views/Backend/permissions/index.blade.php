@@ -7,11 +7,6 @@
     <div class="card">
         <div class="card-header">
             <h2 class="card-title">Permission Management</h2>
-            {{-- <div class="card-tools">
-                <button type="button" class="btn btn-success btn-create" data-toggle="modal" data-target="#PermissionModal">
-                <i class="fas fa-plus-square"></i> Add Permission
-                </button>
-            </div> --}}
             <button type="button" class="btn btn-success btn-create" data-bs-toggle="modal" data-bs-target="#PermissionModal"><i class="fas fa-plus-square"></i> Add Permission</button>
             
         </div>
@@ -34,49 +29,6 @@
     <!-- /.card -->
 </div>
 <!-- Modal UpadateOrCreate Permission -->
-<div class="col-md-4">
-    <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-        <div class="modal-content">
-          <div class="modal-body p-0">
-            <div class="card card-plain">
-              <div class="card-header pb-0 text-left">
-                <h5 class="">Welcome back</h5>
-                <p class="mb-0">Enter your email and password to sign in</p>
-              </div>
-              <div class="card-body">
-                <form role="form text-left">
-                  <div class="input-group input-group-outline my-3">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
-                  </div>
-                  <div class="input-group input-group-outline my-3">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
-                  </div>
-                  <div class="form-check form-switch d-flex align-items-center">
-                    <input class="form-check-input" type="checkbox" id="rememberMe" checked="">
-                    <label class="form-check-label mb-0 ms-3" for="rememberMe">Remember me</label>
-                  </div>
-                  <div class="text-center">
-                    <button type="button" class="btn btn-round bg-gradient-info btn-lg w-100 mt-4 mb-0">Sign in</button>
-                  </div>
-                </form>
-              </div>
-              <div class="card-footer text-center pt-0 px-lg-2 px-1">
-                <p class="mb-4 text-sm mx-auto">
-                  Don't have an account?
-                  <a href="javascript:;" class="text-info text-gradient font-weight-bold">Sign up</a>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> 
-
 <div class="modal fade" id="PermissionModal">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -91,9 +43,9 @@
             <div class="modal-body">
                 <input type="hidden" name="_method" id="permission_method" value="POST">
                 <input type="hidden" name="id" id="id" value="">
-                <div class="input-group input-group-outline my-3">
-                    <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="" required>
+                <div class="input-group input-group-static mb-4">
+                    <label for="name" class="required">Name</label>
+                        <input type="text" class="form-control " id="name" name="name" value="" required>
                         @error('name')
                             <p class="mt-2 mb-0 error text-danger">{{ $message }}</p>
                         @enderror
