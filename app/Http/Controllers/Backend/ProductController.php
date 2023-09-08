@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\AttributeValue;
 use App\Models\Product;
+use App\Models\ProductAttribute;
 use App\Models\ProductCategory;
 use App\Models\ProductTag;
+use Attribute;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -41,13 +45,14 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $attributes = ProductAttribute::all();
         $categories = ProductCategory::with('parentCategory.parentCategory')
             // ->whereHas('parentCategory.parentCategory')
             ->get();
 
         $tags = ProductTag::all()->pluck('name', 'id');
         // dd($categories);
-        return view('Backend.products.create', compact('categories', 'tags'));
+        return view('Backend.products.create', compact('categories', 'tags', 'attributes'));
     }
 
     /**
@@ -62,6 +67,7 @@ class ProductController extends Controller
             'name' => 'required',
             'price' => 'required|numeric',
             'content' => 'nullable',
+            'quantity' => 'numeric',
             'description' => 'required',
             'user_id' => 'nullable|exists:users,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -69,7 +75,8 @@ class ProductController extends Controller
             'categories' => 'nullable', // Make sure 'categories' is an array
             'tags' => 'array', // Make sure 'tags' is an array
         ]);
-    
+        $data['user_id'] = auth()->user()->id;
+
         // Xử lý upload hình ảnh nếu cần thiết
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('products', 'public');
@@ -82,8 +89,21 @@ class ProductController extends Controller
         // Đồng bộ danh mục và thẻ sản phẩm
         $product->categories()->sync($data['categories'] ?? []);
         $product->tags()->sync($data['tags'] ?? []);
+        
+        // Loop through selected attributes and their values
+        $selectedAttributes = $request->input('selected_attributes', []);
+        $selectedAttributeValues = $request->input('selected_attribute_values', []);
 
-    
+        foreach ($selectedAttributes as $attributeId) {
+            $valueIds = $selectedAttributeValues[$attributeId] ?? [];
+            
+            foreach ($valueIds as $valueId) {
+                $dataToAttach = [
+                    'attribute_value_id' => $valueId
+                ];
+                $product->attributes()->attach($attributeId, $dataToAttach);
+            }
+        }
         toastr()->success('Thêm sản phẩm thành công.');
         return redirect()->route('products.index');
     }
@@ -96,8 +116,34 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Product::findOrFail($id);
+
+        $selectedAttributes = $product->attributes;
+
+        // Tạo mảng để lưu danh sách ID giá trị thuộc tính theo ID của thuộc tính
+        $selectedAttributeValues = [];
+
+        $printedAttributes = []; // Đảm bảo khởi tạo biến $printedAttributes
+
+        foreach ($selectedAttributes as $selectedAttribute) {
+            $attributeId = $selectedAttribute->id;
+
+            // Lấy danh sách ID giá trị thuộc tính cho thuộc tính cụ thể của sản phẩm
+            $valueIds = DB::table('product_product_attribute')
+                ->where('product_id', $product->id)
+                ->where('product_attribute_id', $attributeId)
+                ->pluck('attribute_value_id')
+                ->toArray();
+
+            $selectedAttributeValues[$attributeId] = $valueIds;
+        }
+
+        return view('Backend.products.show', compact('product', 'selectedAttributes', 'selectedAttributeValues', 'printedAttributes'));
     }
+
+
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -107,16 +153,43 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $categories = ProductCategory::with('parentCategory.parentCategory')
-            // ->whereHas('parentCategory.parentCategory')
-            ->get();
-
+        $categories = ProductCategory::with('parentCategory.parentCategory')->get();
+        $attributes = ProductAttribute::with('attributeValues')->get();
         $tags = ProductTag::all()->pluck('name', 'id');
 
         $product->load('categories', 'tags');
 
-        return view('Backend.products.edit', compact('categories', 'tags', 'product'));
+        // Lấy thông tin thuộc tính và giá trị của chúng từ bảng trung gian
+        $selectedAttributes = $product->attributes;
+
+        // Lấy thông tin thuộc tính và giá trị của chúng từ bảng trung gian
+        $productAttributes = ProductAttribute::with('attributeValues')
+            ->whereIn('id', $selectedAttributes->pluck('id'))
+            ->get();
+            
+       // Tạo mảng để lưu danh sách ID giá trị thuộc tính theo ID của thuộc tính
+        $selectedAttributeValues = [];
+
+        foreach ($selectedAttributes as $selectedAttribute) {
+            $attributeId = $selectedAttribute->id;
+
+            // Lấy danh sách ID giá trị thuộc tính cho thuộc tính cụ thể của sản phẩm
+            $valueIds = DB::table('product_product_attribute')
+                ->where('product_id', $product->id)
+                ->where('product_attribute_id', $attributeId)
+                ->pluck('attribute_value_id')
+                ->toArray();
+
+            $selectedAttributeValues[$attributeId] = $valueIds;
+        }
+
+        // Logic để nhóm giá trị thuộc tính theo từng thuộc tính
+        $attributeValues = AttributeValue::all()->groupBy('product_attribute_id');
+
+        return view('Backend.products.edit', compact('categories', 'tags', 'product', 'attributes', 'productAttributes', 'selectedAttributes', 'selectedAttributeValues', 'attributeValues'));
     }
+
+
 
     /**
      * Update the specified resource in storage.
@@ -126,35 +199,56 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Product $product)
-{
-    $data = $request->validate([
-        'name' => 'required',
-        'price' => 'required|numeric',
-        'content' => 'nullable',
-        'description' => 'required',
-        'user_id' => 'nullable|exists:users,id',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'slug' => 'nullable|unique:products,slug,' . $product->id,
-        'categories' => 'nullable', // Make sure 'categories' is an array
-        'tags' => 'array', // Make sure 'tags' is an array
-    ]);
+    {
+        $data = $request->validate([
+            'name' => 'required',
+            'price' => 'required|numeric',
+            'content' => 'nullable',
+            'quantity' => 'numeric',
+            'description' => 'required',
+            'user_id' => 'nullable|exists:users,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'slug' => 'nullable|unique:products,slug,' . $product->id, // Ensure slug uniqueness excluding the current product
+            'categories' => 'nullable', // Make sure 'categories' is an array
+            'tags' => 'array', // Make sure 'tags' is an array
+            'updated_by' => 'nullable|exists:users,id',
+        ]);
+        $data['updated_by'] = auth()->user()->id;
 
-    // Xử lý upload hình ảnh nếu cần thiết
-    if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('products', 'public');
-        $data['image'] = $imagePath;
+        // Xử lý upload hình ảnh nếu cần thiết
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('products', 'public');
+            $data['image'] = $imagePath;
+        }
+
+        // Cập nhật thông tin sản phẩm
+        $product->update($data);
+
+        // Đồng bộ danh mục và thẻ sản phẩm
+        $product->categories()->sync($data['categories'] ?? []);
+        $product->tags()->sync($data['tags'] ?? []);
+
+        // Xóa các thuộc tính cũ và thêm thuộc tính mới
+        $selectedAttributes = $request->input('selected_attributes', []);
+        $selectedAttributeValues = $request->input('selected_attribute_values', []);
+
+        $product->attributes()->detach(); // Xóa tất cả các thuộc tính hiện tại của sản phẩm
+
+        foreach ($selectedAttributes as $attributeId) {
+            $valueIds = $selectedAttributeValues[$attributeId] ?? [];
+
+            foreach ($valueIds as $valueId) {
+                $dataToAttach = [
+                    'attribute_value_id' => $valueId
+                ];
+                $product->attributes()->attach($attributeId, $dataToAttach);
+            }
+        }
+
+        toastr()->success('Cập nhật sản phẩm thành công.');
+        return redirect()->route('products.index');
     }
 
-    // Cập nhật thông tin sản phẩm
-    $product->update($data);
-
-    // Đồng bộ danh mục và thẻ sản phẩm
-    $product->categories()->sync($data['categories'] ?? []);
-    $product->tags()->sync($data['tags'] ?? []);
-
-    toastr()->success('Cập nhật sản phẩm thành công.');
-    return redirect()->route('products.index');
-}
 
 
     /**
@@ -196,4 +290,20 @@ class ProductController extends Controller
         return response()->json(['slug' => $slug]);
 
     }
+
+    public function getAttributeData()
+    {
+        $attributes = ProductAttribute::all();
+
+        $attributeData = $attributes->map(function ($attribute) {
+            return [
+                'id' => $attribute->id,
+                'name' => $attribute->name,
+            ];
+        });
+
+        return response()->json($attributeData);
+    }
+
+    
 }

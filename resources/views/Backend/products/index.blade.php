@@ -28,7 +28,7 @@
                 <tr>
                     <td class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $product->id ?? '' }}</td>
                     <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">{{ $prefix ?? '' }} {{ $product->name ?? '' }}</td>
-                    <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">{{ $product->description ?? '' }}</td>
+                    <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">{{ strip_tags($product->description) ?? '' }}</td>
                     <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">{{ $product->price ?? '' }}</td>
                     
                     <td>
@@ -79,6 +79,9 @@
                         </form>
                     </td>
                     @endcan
+                    <td class="text-center">
+                        <a href="{{ route('products.show', $product->id) }}" class="btn btn-info text-xxs">Xem chi tiết</a>
+                    </td>
                 </tr>
             @endforeach
         </tbody>

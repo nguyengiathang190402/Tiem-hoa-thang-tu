@@ -108,16 +108,20 @@ class PermissionController extends Controller
 
     public function destroy($id)
     {
-        DB::table("permissions")->where('id',$id)->delete();        
-        return response()->json([
-            'message' => 'Hồ sơ đã xóa thành công!'
-          ]);
-        /* $notification = array(            
-            'message' => 'Permissions deleted successfully',
-            'alert-type' => 'success'            
-        );
-        return redirect()->route('permissions.index')
-                        ->with($notification); */
+        $permission = Permission::find($id);
 
+        if (!$permission) {
+            // Xử lý nếu quyền không tồn tại
+            return response()->json([
+                'message' => 'Không được tìm thấy',
+            ], 404);
+        }
+
+        $permission->forceDelete();
+
+        return response()->json([
+            'message' => 'Quyền đã xóa vĩnh viễn',
+        ]);
     }
+
 }
